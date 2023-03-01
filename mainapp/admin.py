@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . import models
+from .models import Purchase
 
 # Register your models here.
-admin.register(models.Purchase)
+admin.site.register(Purchase)

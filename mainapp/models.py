@@ -14,11 +14,12 @@ class Purchase(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=100, null=True)
     quantity = models.IntegerField(default=1)
+    quantityType = models.CharField(max_length=3, choices=Types.choices, default=Types.QTY)
     created = models.DateTimeField(auto_now_add=True)
-    completed = models.BooleanField(default=1)
+    completed = models.BooleanField(default=False)
     
     def __str__(self) -> str:
-        return f"{self.quantity} {self.title}"
+        return f"{self.quantity}{self.quantityType} {self.title}"
     
     class Meta:
         ordering = ['completed']
