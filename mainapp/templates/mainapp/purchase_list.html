@@ -10,9 +10,9 @@
         <tr>
             <th>Things to purchase</th>
         </tr>
-        {% for purchase in object_list %}
+        {% for item in object_list %}
         <tr>
-            <td><a href='{% url "purchase-detailed" purchase.pk %}'>{{ purchase.quantity }}{{ purchase.quantityType.get_status_display }} {{ purchase.title }}</a></td>
+            <td><a href='{% url "item-detailed" item.pk %}'>{{ item.quantity }}{{ item.quantityType.get_status_display }} {{ item.title }}</a></td>
         </tr>
         {% endfor %}
     </table>
