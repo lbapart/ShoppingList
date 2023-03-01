@@ -12,7 +12,7 @@
         </tr>
         {% for purchase in object_list %}
         <tr>
-            <td>{{ purchase.quantity }}{{ purchase.quantityType.get_status_display }} {{ purchase.title }}</td>
+            <td><a href='{% url "purchase-detailed" purchase.pk %}'>{{ purchase.quantity }}{{ purchase.quantityType.get_status_display }} {{ purchase.title }}</a></td>
         </tr>
         {% endfor %}
     </table>
