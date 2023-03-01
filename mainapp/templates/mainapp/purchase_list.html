@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping List</title>
+</head>
+<body>
+    <h1>My Shopping List</h1>
+    <table>
+        <tr>
+            <th>Things to purchase</th>
+        </tr>
+        {% for purchase in object_list %}
+        <tr>
+            <td>{{ purchase.quantity }}{{ purchase.quantityType.get_status_display }} {{ purchase.title }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="">Add item</a>
+
+</body>
+</html>
