@@ -5,12 +5,18 @@
     <title>Shopping List</title>
 </head>
 <body>
+    {% if request.user.is_authenticated %}
+        <p>{{ request.user }}</p>
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
     <h1>My Shopping List</h1>
     <table>
         <tr>
             <th>Things to purchase</th>
         </tr>
-        {% for item in object_list %}
+        {% for item in items %}
         <tr>
             <td>{{ item.quantity }}{{ item.quantityType.get_status_display }} {{ item.title }}</td>
             <td><a href='{% url "item-detailed" item.pk %}'><button>Details</button></a></td>
