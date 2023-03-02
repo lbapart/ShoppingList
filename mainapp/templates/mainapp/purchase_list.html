@@ -12,7 +12,10 @@
         </tr>
         {% for item in object_list %}
         <tr>
-            <td><a href='{% url "item-detailed" item.pk %}'>{{ item.quantity }}{{ item.quantityType.get_status_display }} {{ item.title }}</a></td>
+            <td>{{ item.quantity }}{{ item.quantityType.get_status_display }} {{ item.title }}</td>
+            <td><a href='{% url "item-detailed" item.pk %}'><button>Details</button></a></td>
+            <td><a href='{% url "item-update" item.pk %}'><button>Update</button></a></td>
+            <td><a href='{% url "item-delete" item.pk %}'><button>Delete</button></a></td>
         </tr>
         {% endfor %}
     </table>
