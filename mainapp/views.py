@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -23,15 +23,21 @@ class ItemDetailed(LoginRequiredMixin, DetailView):
     model = Purchase
     template_name = 'mainapp/purchase_detail.html'
     
-    # def get(self, *args, **kwarg):
-    #     return super().get(request, *args, **kwargs)
+    def get(self, *args, pk, **kwargs):
+        selectItemQuery = Purchase.objects.filter(pk=pk).values()
+        if selectItemQuery:
+            selectItemUserId = selectItemQuery[0]['user_id']
+            if self.request.user.pk == selectItemUserId:
+                return super(ItemDetailed, self).get(pk, *args, **kwargs)
+        
+        return HttpResponseForbidden('Forbidden')
 
 class ItemCreate(LoginRequiredMixin, CreateView):
     model = Purchase
     fields = ['title', 'quantity', 'quantityType']
     success_url = reverse_lazy('items')
     
-    def form_valid(self, form) -> HttpResponse:
+    def form_valid(self, form):
         form.instance.user = self.request.user
         return super(ItemCreate, self).form_valid(form)
 
@@ -40,21 +46,40 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
     fields = ['title', 'quantity', 'quantityType', 'completed']
     success_url = reverse_lazy('items')
     
-    # def get(self, *args, **kwarg):
-    #     return super(ItemUpdate, self).get(*args, **kwargs)
-    
-    # def post(self, *args, **kwarg):
-    #     return super().post(request, *args, **kwargs)
+    def get(self, *args, pk, **kwargs):
+        selectItemQuery = Purchase.objects.filter(pk=pk).values()
+        if selectItemQuery:
+            selectItemUserId = selectItemQuery[0]['user_id']
+            if self.request.user.pk == selectItemUserId:
+                return super(ItemUpdate, self).get(*args, **kwargs)
+        
+        return HttpResponseForbidden('Forbidden')
+            
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ItemUpdate, self).form_valid(form)
 
 class ItemDelete(LoginRequiredMixin, DeleteView):
     model = Purchase
     success_url = reverse_lazy('items')
     
-    # def get(self, *args, **kwarg):
-    #     return super().get(request, *args, **kwargs)
+    def get(self, *args, pk, **kwargs):
+        selectItemQuery = Purchase.objects.filter(pk=pk).values()
+        if selectItemQuery:
+            selectItemUserId = selectItemQuery[0]['user_id']
+            if self.request.user.pk == selectItemUserId:
+                return super(ItemDelete, self).get(pk, *args, **kwargs)
+        
+        return HttpResponseForbidden('Forbidden')
     
-    # def post(self, *args, **kwarg):
-    #     return super().post(request, *args, **kwargs)
+    def delete(self, request, *args, pk, **kwargs):
+        selectItemQuery = Purchase.objects.filter(pk=pk).values()
+        if selectItemQuery:
+            selectItemUserId = selectItemQuery[0]['user_id']
+            if self.request.user.pk == selectItemUserId:
+                return super(ItemDelete, self).delete(request, *args, **kwargs)
+        
+        return HttpResponseForbidden('Forbidden')
 
 class AppLoginView(LoginView):
     template_name = 'mainapp/login.html'
