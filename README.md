@@ -1,5 +1,5 @@
 # ShoppingList
-Simple Shopping List (ToDo)
+Simple Shopping List (ToDo)<br>
 With registration and protection from CRUD other user's lists.
 
 To run it on your PC run the following commands:
