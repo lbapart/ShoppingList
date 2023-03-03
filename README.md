@@ -11,3 +11,5 @@ pipenv shell
 pipenv install
 python manage.py runserver
 ```
+
+![Alt text](https://github.com/lbapart/ShoppingList/blob/main/mainapp/screenshots/Main%20Page.png "Optional title")
