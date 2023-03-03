@@ -19,7 +19,11 @@ class Purchase(models.Model):
     completed = models.BooleanField(default=False)
     
     def __str__(self) -> str:
-        return f"{self.quantity}{self.quantityType} {self.title}"
+        type = self.get_quantityType_display()
+        if type == 'qty':
+            type = ''
+
+        return f"{self.title} {self.quantity}{type}"
     
     class Meta:
         ordering = ['completed']

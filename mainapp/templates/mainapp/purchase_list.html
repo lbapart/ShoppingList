@@ -1,31 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Shopping List</title>
-</head>
-<body>
-    {% if request.user.is_authenticated %}
-        <p>{{ request.user }}</p>
-        <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <a href="{% url 'login' %}">Login</a>
-    {% endif %}
-    <h1>My Shopping List</h1>
-    <table>
-        <tr>
-            <th>Things to purchase</th>
-        </tr>
-        {% for item in items %}
-        <tr>
-            <td>{{ item.quantity }}{{ item.quantityType.get_status_display }} {{ item.title }}</td>
-            <td><a href='{% url "item-detailed" item.pk %}'><button>Details</button></a></td>
-            <td><a href='{% url "item-update" item.pk %}'><button>Update</button></a></td>
-            <td><a href='{% url "item-delete" item.pk %}'><button>Delete</button></a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <a href='{% url "item-create" %}'><button>Add item</button></a>
+{% extends 'mainapp/main.html' %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<div class="header-bar">
+    <div>
+        <p>Hello, {{ request.user }}</p>
+    </div>
+    <a href="{% url 'logout' %}">Logout</a>
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+{% endif %}
+</div>
 
-</body>
-</html>
+<div class="task-items-wrapper">
+    {% for item in items %}
+    <div class="task-wrapper">
+        {% if item.completed %}
+        <div class="task-title">
+            <div class="task-complete-icon"></div>
+            <i><s><a href="{% url 'item-update' item.id%}">{{ item }}</a></s></i>
+        </div>
+        <a class="delete-link" href="{% url 'item-delete' item.id %}">&#215;</a>
+
+        {% else %}
+        <div class="task-title">
+            <div class="task-incomplete-icon"></div>
+            <a href="{% url 'item-update' item.id %}">{{ item }}</a>
+        </div>
+        <a class="delete-link" href="{% url 'item-delete' item.id %}">&#215;</a>
+        {% endif %}
+        
+    </div>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+    <a class="add-link" href="{% url 'item-create' %}"></a>
+
+</div>
+
+</div>
+{% endblock content %}

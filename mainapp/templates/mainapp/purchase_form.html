@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Create new item</title>
-</head>
-<body>
-    <h1>Create new item</h1>
+{% extends 'mainapp/main.html' %}
+{% block content %}
+<div class="header-bar">
+    <a href="{% url 'items' %}">&#8592; Back</a>
+</div>
+<div class="card-body">
     <form action="" method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save item">
+        {{ form.as_table }}
+        <br>
+        <input class='button' type="submit" value="Save item">
     </form>
-
-</body>
-</html>
+</div>
+{% endblock content %}
